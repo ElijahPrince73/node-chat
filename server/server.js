@@ -16,6 +16,21 @@ app.use(express.static(publicPath));
 io.on('connection' , (socket) => {
   console.log('new user connected');
 
+  var d = new Date ();
+  var n = d.getMinutes();
+
+//Sends messgae to client
+  socket.emit('createMessageClient', {
+    from: 'user1',
+    text:'Hey Whats Up',
+    createdAt: n
+  })
+
+  //Recieves Message
+  socket.on('createMessageServer', (createMessageServer) => {
+    console.log('Recieved Message', createMessageServer);
+  })
+
   socket.on('disconnect', () => {
     console.log('disconnected from server ');
   })
